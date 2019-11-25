@@ -25,6 +25,7 @@ typedef struct	s_struct
 	char	buf[BUFFER_SIZE + 1];
 	char	*str;
 	int		nb_read;
+	int		init;
 }				t_struct;
 
 int				get_next_line(int fd, char **line);

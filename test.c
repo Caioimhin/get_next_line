@@ -48,8 +48,8 @@ int	main(int ac, char *av[])
 		while ((gnl = (get_next_line(fd[i], ptr))) >= 1)
 		{
 			printf("lecture en cours :\t%d-%s\n", gnl, line);
-	// if (BUFFER_SIZE > 0)
-	// 	free(line);
+			if (BUFFER_SIZE > 0)
+				free(line);
 		}
 		printf("derniere ligne :\t%d-%s", gnl, line);
 			if (BUFFER_SIZE > 0)
