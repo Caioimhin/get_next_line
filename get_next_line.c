@@ -33,7 +33,7 @@ char	*ft_strchr(const char *str, int c)
 int		get_next_line(int fd, char **line)
 {
 	static t_struct	info;
-	int				i;
+	size_t			i;
 
 	i = 0;
 	if (fd < 0 || !line || BUFFER_SIZE < 1)
@@ -56,6 +56,8 @@ int		get_next_line(int fd, char **line)
 			i += 1;
 		*line = ft_substr(info.str, 0, i = i == 0 ? 1 : i);
 		info.str = i != 0 ? ft_strdup(&info.str[i]) : ft_strdup("");
+		if (info.nb_read == 0)
+			return (0);
 		return (1);
 	}
 	return (0);
