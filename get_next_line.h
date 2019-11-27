@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 4
 
 # endif
 # include <unistd.h>
@@ -22,7 +22,7 @@
 
 typedef struct	s_struct
 {
-	char	buf[BUFFER_SIZE + 1];
+	char	*buf;
 	char	*str;
 	int		nb_read;
 	int		init;

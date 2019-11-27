@@ -38,6 +38,7 @@ int		get_next_line(int fd, char **line)
 	i = 0;
 	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
+
 	if (!info.str)
 	{
 		info.str = ft_strdup("");
@@ -47,18 +48,27 @@ int		get_next_line(int fd, char **line)
 	{
 		while (ft_strchr(info.str, '\n') == NULL && info.nb_read != 0)
 		{
+			if (!(info.buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+				return (-1);
 			info.nb_read = read(fd, info.buf, BUFFER_SIZE);
-			info.buf[info.nb_read + 1] = 0;
+			info.buf[info.nb_read] = 0;
 			info.str = ft_strjoin(info.str, info.buf);
-			info.buf[0] = 0;
+			free(info.buf);
 		}
 		while (i < ft_strlen(info.str) && info.str[i] != '\n')
 			i += 1;
-		*line = ft_substr(info.str, 0, i = i == 0 ? 1 : i);
-		info.str = i != 0 ? ft_strdup(&info.str[i]) : ft_strdup("");
+		*line = i == 0 ? ft_strdup("") : ft_substr(info.str, 0, i);
+		info.str = i == 0 ? ft_strdup("") : ft_strdup(&info.str[i + 1]);
 		if (info.nb_read == 0)
+		{
+			free(info.str);
+			info.str = 0;
 			return (0);
+		}
 		return (1);
 	}
+	*line = ft_strdup(info.str);
+	free(info.str);
+	info.str = 0;
 	return (0);
 }
