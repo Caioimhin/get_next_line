@@ -37,6 +37,7 @@ int	get_next_line3(t_struct *info, int fd)
 	info->nb_read = read(fd, info->buf, BUFFER_SIZE);
 	info->buf[info->nb_read] = 0;
 	info->str = ft_strjoin(info->str, info->buf);
+	free(info->buf);
 	info->buf = 0;
 	return(0);
 }
@@ -81,6 +82,8 @@ int		get_next_line(int fd, char **line)
 		return(get_next_line2(&info, fd, line));
 	*line = ft_strdup(info.str);
 	free(info.str);
+	free(info.buf);
+	info.buf = 0;
 	info.str = 0;
 	return (0);
 }
