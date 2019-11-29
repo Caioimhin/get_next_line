@@ -6,7 +6,7 @@
 /*   By: kparis <kparis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:41:42 by kparis            #+#    #+#             */
-/*   Updated: 2019/11/29 15:49:40 by kparis           ###   ########.fr       */
+/*   Updated: 2019/11/29 17:39:58 by kparis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ int		get_next_line3(t_struct *info, int fd)
 {
 	if (!(info->buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	info->nb_read = read(fd, info->buf, BUFFER_SIZE);
+	if ((info->nb_read = read(fd, info->buf, BUFFER_SIZE)) == -1)
+	{
+		free(info->buf);
+		return (-1);
+	}
 	info->buf[info->nb_read] = 0;
 	info->str = ft_strjoin(info->str, info->buf);
 	free(info->buf);
@@ -71,7 +75,7 @@ int		get_next_line(int fd, char **line)
 {
 	static t_struct	info;
 
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
+	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
 		return (-1);
 	if (!info.str)
 	{
