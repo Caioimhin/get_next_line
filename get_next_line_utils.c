@@ -6,7 +6,7 @@
 /*   By: kparis <kparis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 15:57:08 by kparis            #+#    #+#             */
-/*   Updated: 2019/11/20 17:31:31 by kparis           ###   ########.fr       */
+/*   Updated: 2019/11/30 17:00:44 by kparis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ size_t	ft_strlen(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-void	ft_putstr(char *str)
-{
-	int i;
-
-	i = 0;
-	if (str == 0)
-		return ;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -71,24 +57,31 @@ char	*ft_strdup(const char *src)
 	return (str2);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char **s1, char *s2)
 {
-	int		str1_len;
-	int		str2_len;
 	char	*str;
-	int		i;
+	size_t	i;
+	size_t	j;
 
-	str1_len = ft_strlen((char *)s1);
-	str2_len = ft_strlen((char *)s2);
-	if (!(str = malloc(sizeof(char) * (str1_len + str2_len) + 1)))
-		return (0);
+	str = (char*)malloc(
+			sizeof(**s1) * (ft_strlen(*s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
-	str1_len = 0;
-	str2_len = 0;
-	while (s1[str1_len])
-		str[i++] = s1[str1_len++];
-	while (s2[str2_len])
-		str[i++] = s2[str2_len++];
-	str[i] = 0;
+	j = 0;
+	while ((*s1)[i])
+	{
+		str[j++] = (*s1)[i];
+		i++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		str[j++] = s2[i];
+		i++;
+	}
+	str[j] = 0;
+	free(*s1);
+	*s1 = str;
 	return (str);
 }

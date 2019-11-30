@@ -6,7 +6,7 @@
 /*   By: kparis <kparis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:41:42 by kparis            #+#    #+#             */
-/*   Updated: 2019/11/29 17:39:58 by kparis           ###   ########.fr       */
+/*   Updated: 2019/11/30 17:42:57 by kparis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,24 @@ char	*ft_strchr(const char *str, int c)
 int		get_next_line3(t_struct *info, int fd)
 {
 	if (!(info->buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
-	if ((info->nb_read = read(fd, info->buf, BUFFER_SIZE)) == -1)
 	{
 		free(info->buf);
+		info->buf = 0;
+		free(info->str);
+		info->str = 0;
+		return (-1);
+	}
+	info->nb_read = read(fd, info->buf, BUFFER_SIZE);
+	if (info->nb_read == -1)
+	{
+		free(info->buf);
+		info->buf = 0;
+		free(info->str);
+		info->str = 0;
 		return (-1);
 	}
 	info->buf[info->nb_read] = 0;
-	info->str = ft_strjoin(info->str, info->buf);
+	info->str = ft_strjoin(&info->str, info->buf);
 	free(info->buf);
 	info->buf = 0;
 	return (0);
@@ -52,8 +62,10 @@ int		get_next_line2(t_struct *info, int fd, char **line)
 
 	i = 0;
 	while (ft_strchr(info->str, '\n') == NULL && info->nb_read != 0)
+	{
 		if (get_next_line3(info, fd) == -1)
 			return (-1);
+	}
 	if (ft_strchr(info->str, '\n') != NULL)
 	{
 		while (i < ft_strlen(info->str) && info->str[i] != '\n')
@@ -86,8 +98,6 @@ int		get_next_line(int fd, char **line)
 		return (get_next_line2(&info, fd, line));
 	*line = ft_strdup(info.str);
 	free(info.str);
-	free(info.buf);
-	info.buf = 0;
 	info.str = 0;
 	return (0);
 }
