@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kparis <kparis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kevin <kevin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:35:56 by kparis            #+#    #+#             */
-/*   Updated: 2019/11/30 16:59:59 by kparis           ###   ########.fr       */
+/*   Updated: 2019/12/02 11:23:45 by kevin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_struct
 {
 	char	*buf;
 	char	*str;
+	char	*tmp;
 	int		nb_read;
 	int		init;
 }				t_struct;
