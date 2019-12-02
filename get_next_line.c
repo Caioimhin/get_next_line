@@ -6,7 +6,7 @@
 /*   By: kevin <kevin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:41:42 by kparis            #+#    #+#             */
-/*   Updated: 2019/12/02 11:27:18 by kevin            ###   ########.fr       */
+/*   Updated: 2019/12/02 11:54:41 by kevin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int		get_next_line2(t_struct *info, int fd, char **line)
 		while (i < ft_strlen(info->str) && info->str[i] != '\n')
 			i += 1;
 		*line = i == 0 ? ft_strdup("") : ft_substr(info->str, 0, i);
-		info->tmp = ft_strdup(&info->str[i + 1]);
+		info->tmp = ft_substr(info->str, i+1, ft_strlen(&info->str[i + 1]));
 		free(info->str);
-		info->str = info->tmp;
+		info->str = ft_strdup(info->tmp);
 		free(info->tmp);
 		return (1);
 	}
@@ -74,7 +74,7 @@ int		get_next_line(int fd, char **line)
 {
 	static t_struct	info;
 
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
+	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
 		return (-1);
 	if (!info.str)
 	{
